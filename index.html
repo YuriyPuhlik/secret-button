@@ -5,50 +5,109 @@
   <title>Я хочу написать, но стесняюсь 🥹</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #fffaf8;
       height: 100vh;
-      margin: 0;
+      background-color: #fffaf8;
+      transition: background 1.5s ease;
     }
-    button {
-      font-size: 2rem;
-      padding: 20px 40px;
-      background: #ff9aa2;
-      border: none;
-      border-radius: 14px;
-      color: white;
-      cursor: pointer;
-      height: 150px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #ff7b88;
-    }
-    #status {
-      margin-top: 20px;
-      font-size: 1.5rem;
-      color: #444;
-      text-align: center;
-    }
+
     .container {
       text-align: center;
+      z-index: 1;
+    }
+
+    button {
+      font-size: 1.4rem;
+      padding: 18px 32px;
+      margin: 10px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    #sendBtn {
+      background-color: #ffd1dc;
+      color: #2d2d2d;
+    }
+
+    #sendBtn:hover {
+      background-color: #ffb5c5;
+    }
+
+    #nightBtn {
+      background-color: #c6d8ff;
+      color: #243b6f;
+    }
+
+    #nightBtn:hover {
+      background-color: #a9c4ff;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #444;
+    }
+
+    body.night {
+      background: url('https://cdn.dribbble.com/userupload/21386027/file/original-6c3c1d06479b15e1dd57492adebb0bd6.gif') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/star.png') repeat;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: moveStars 100s linear infinite;
+      transition: opacity 1.5s ease;
+    }
+
+    body.night .stars {
+      opacity: 0.08;
+    }
+
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: 10000px 5000px; }
+    }
+
+    #emojiMessage {
+      font-size: 2rem;
+      margin-top: 20px;
+      display: none;
     }
   </style>
 </head>
 <body>
+  <div class="stars"></div>
+
   <div class="container">
     <form id="myForm" action="https://formspree.io/f/mzzgrkyq" method="POST">
       <input type="hidden" name="message" value="Лиза нажала кнопку: 'Я хочу написать, но стесняюсь 🥹'"/>
-      <button type="submit">Я хочу написать, но стесняюсь 🥹</button>
+      <button type="submit" id="sendBtn">Я хочу написать, но стесняюсь 🥹</button>
     </form>
+
+    <button id="nightBtn">Спокойной ночи 🌙</button>
+    <div id="emojiMessage">Сладких снов, малыш ✨🩷😘</div>
     <div id="status"></div>
   </div>
 
   <script>
+    // Отправка формы
     const form = document.getElementById('myForm');
     const status = document.getElementById('status');
 
@@ -57,9 +116,7 @@
       fetch(form.action, {
         method: 'POST',
         body: new FormData(form),
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       }).then(response => {
         if (response.ok) {
           status.textContent = 'Готово 💌';
@@ -76,6 +133,13 @@
       }).catch(() => {
         status.textContent = 'Ошибка соединения 🛜';
       });
+    });
+
+    // Ночная тема
+    document.getElementById("nightBtn").addEventListener("click", () => {
+      document.body.classList.add("night");
+      document.getElementById("nightBtn").style.display = "none";
+      document.getElementById("emojiMessage").style.display = "block";
     });
   </script>
 </body>
