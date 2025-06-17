@@ -22,9 +22,11 @@
     }
 
     button {
-      font-size: 1.4rem;
-      padding: 18px 32px;
+      height: 150px;
+      font-size: 2.4rem;
+      padding: 18px 52px;
       margin: 10px;
+      margin-bottom: 2rem;
       border: none;
       border-radius: 14px;
       cursor: pointer;
@@ -52,12 +54,12 @@
 
     #status {
       margin-top: 20px;
-      font-size: 1rem;
+      font-size: 1.5rem;
       color: #444;
     }
 
     body.night {
-      background: url('https://cdn.dribbble.com/userupload/21386027/file/original-6c3c1d06479b15e1dd57492adebb0bd6.gif') no-repeat center center fixed;
+      background: url('https://i.pinimg.com/originals/73/9a/11/739a110eca25577a82409620864262cf.gif') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
     }
@@ -68,7 +70,6 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/star.png') repeat;
       opacity: 0;
       pointer-events: none;
       z-index: 0;
@@ -86,7 +87,7 @@
     }
 
     #emojiMessage {
-      font-size: 2rem;
+      font-size: 3rem;
       margin-top: 20px;
       display: none;
     }
@@ -139,6 +140,7 @@
     document.getElementById("nightBtn").addEventListener("click", () => {
       document.body.classList.add("night");
       document.getElementById("nightBtn").style.display = "none";
+      document.getElementById("sendBtn").style.display = "none";
       document.getElementById("emojiMessage").style.display = "block";
     });
   </script>
