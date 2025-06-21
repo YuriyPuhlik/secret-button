@@ -4,27 +4,27 @@
   <meta charset="UTF-8" />
   <title>Я хочу написать, но стесняюсь 🥹</title>
   <style>
-    html, body {
+    body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      height: 100%;
-      background-color: #fffaf8;
-      transition: background 1.5s ease;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
+      background-color: #fffaf8;
+      transition: background 1.5s ease;
+      flex-direction: column;
+      text-align: center;
     }
 
     .container {
-      text-align: center;
       z-index: 1;
-      max-width: 90%;
     }
 
     button {
       height: 150px;
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       padding: 18px 52px;
       margin: 10px;
       border: none;
@@ -53,12 +53,12 @@
     }
 
     #fearBtn {
-      background-color: #d6d3ff;
-      color: #3a2b84;
+      background-color: #e4c1f9;
+      color: #4b2e5d;
     }
 
     #fearBtn:hover {
-      background-color: #bebaff;
+      background-color: #d3aef3;
     }
 
     #status {
@@ -94,32 +94,18 @@
       to { background-position: 10000px 5000px; }
     }
 
-    .message {
-      font-size: 2.6rem;
+    #emojiMessage {
+      font-size: 3rem;
       display: none;
-      margin: 0 auto;
+      margin-top: -500px;
+    }
+
+    #fearMessage {
+      display: none;
+      font-size: 2.4rem;
       text-align: center;
+      margin-top: 30px;
       line-height: 1.5;
-      padding: 0 20px;
-    }
-
-    .centered {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    @media (max-width: 768px) {
-      button {
-        height: auto;
-        padding: 20px;
-        font-size: 1.8rem;
-      }
-
-      .message {
-        font-size: 2rem;
-      }
     }
   </style>
 </head>
@@ -134,26 +120,20 @@
 
     <button id="nightBtn">Спокойной ночи 🌙</button>
 
-    <!-- Страхи кнопка ниже -->
-    <div>
-      <button id="fearBtn">Мои страхи 😔</button>
-    </div>
-
-    <!-- Сообщения -->
-    <div id="emojiMessage" class="message centered">
+    <div id="emojiMessage">
       <p>Сладких снов, малыш</p>
       ✨ 🩷 😘
     </div>
 
-    <div id="fearMessage" class="message centered">
-      <p>У моего солнышка нет страхов,<br>она просто очень чувствительная<br>🥹❤️</p>
+    <button id="fearBtn">Мои страхи 😔</button>
+    <div id="fearMessage">
+      У моего солнышка нет страхов,<br>она просто очень чувствительная 💖
     </div>
 
     <div id="status"></div>
   </div>
 
   <script>
-    // Отправка формы
     const form = document.getElementById('myForm');
     const status = document.getElementById('status');
 
@@ -181,7 +161,6 @@
       });
     });
 
-    // Ночная тема
     document.getElementById("nightBtn").addEventListener("click", () => {
       document.body.classList.add("night");
       document.getElementById("nightBtn").style.display = "none";
@@ -190,10 +169,9 @@
       document.getElementById("emojiMessage").style.display = "block";
     });
 
-    // Страхи
     document.getElementById("fearBtn").addEventListener("click", () => {
-      document.getElementById("nightBtn").style.display = "none";
       document.getElementById("sendBtn").style.display = "none";
+      document.getElementById("nightBtn").style.display = "none";
       document.getElementById("fearBtn").style.display = "none";
       document.getElementById("fearMessage").style.display = "block";
     });
