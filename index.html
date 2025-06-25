@@ -22,7 +22,7 @@
       z-index: 1;
     }
 
-    button {
+    button.menu-btn {
       height: 150px;
       font-size: 2.4rem;
       padding: 18px 52px;
@@ -137,6 +137,8 @@
     }
 
     #nextCupBtn {
+    	width: 400px;
+    	height: 100px;
       margin-top: 20px;
       padding: 12px 32px;
       font-size: 1.6rem;
@@ -159,25 +161,25 @@
   <div class="container">
     <form id="myForm" action="https://formspree.io/f/mzzgrkyq" method="POST">
       <input type="hidden" name="message" value="Лиза нажала кнопку: 'Я хочу написать, но стесняюсь 🥹'"/>
-      <button type="submit" id="sendBtn">Я хочу написать, но стесняюсь 🥹</button>
+      <button type="submit" id="sendBtn" class="menu-btn">Я хочу написать, но стесняюсь 🥹</button>
     </form>
 
-    <button id="nightBtn">Спокойной ночи 🌙</button>
+    <button id="nightBtn" class="menu-btn">Спокойной ночи 🌙</button>
 
     <div id="emojiMessage">
       <p>Сладких снов, малыш</p>
       ✨ 🩷 😘
     </div>
 
-    <button id="fearBtn">Мои страхи 😔</button>
+    <button id="fearBtn" class="menu-btn">Мои страхи 😔</button>
     <div id="fearMessage">
       У моего солнышка нет страхов, она просто очень чувствительная<br><br><span class="fearEmoji">🥹❤️</span>
     </div>
 
-    <button id="cupsBtn">Что чувствует Юра, когда ему присылают такие милые кружки 🥰</button>
+    <button id="cupsBtn" class="menu-btn">Что чувствует Юра, когда ему присылают такие милые кружки 🥰</button>
     <div id="cupsContainer">
       <img id="cupImage" src="" alt="Милость"/>
-      <button id="nextCupBtn">Дальше ➡️</button>
+      <button id="nextCupBtn">Шаг 1  ➡️</button>
     </div>
 
     <div id="status"></div>
@@ -251,9 +253,10 @@
       currentCup++;
       if (currentCup < cupImages.length) {
         document.getElementById("cupImage").src = cupImages[currentCup];
+      	document.getElementById("nextCupBtn").innerHTML = "Шаг 2  ➡️";
       }
       if (currentCup === cupImages.length - 1) {
-      document.getElementById("nextCupBtn").style.display = "none";
+      	document.getElementById("nextCupBtn").innerHTML = "Шаг 3  💙";
 
       } 
     });
