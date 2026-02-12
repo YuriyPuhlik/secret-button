@@ -12,7 +12,7 @@
     .screen { display:none; flex-direction:column; justify-content:center; align-items:center; min-height:60vh; }
     .heart-btn, .start-btn { width:100px; height:100px; background:#ff4d94; border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-size:1.5em; cursor:pointer; margin:20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: transform 0.2s; }
     .heart-btn:active, .start-btn:active { transform: scale(1.2); }
-    img { width:80%; max-width:300px; border-radius:15px; margin:10px 0; box-shadow: 0 5px 10px rgba(0,0,0,0.2);}
+    img, video { width:80%; max-width:300px; border-radius:15px; margin:10px 0; box-shadow: 0 5px 10px rgba(0,0,0,0.2);}
     #final-options button { margin:10px; padding:10px 20px; font-size:1em; border:none; border-radius:10px; cursor:pointer; background:#ff80bf; color:white; transition: background 0.2s; }
     #final-options button:hover { background:#ff1a75; }
     #countdown { font-size:1.5em; margin-top:20px; color:#ff3366; }
@@ -26,21 +26,12 @@
 <script>
 // ==== ДАННЫЕ ИГРОВЫХ ЭКРАНОВ ====
 const screensData = [
-    "Привет, моя любимая! 💖",
-    "Помнишь наш первый совместный вечер? 😊",
-    "Я люблю твой смех 😍",
-    "Каждое утро с тобой — как праздник 🌸",
-    "Наши прогулки под дождем 🌧️",
-    "Твои объятия — моя крепость 🤗",
-    "Спасибо за все наши маленькие шутки 😂",
-    "Люблю, когда ты рядом, даже молчишь 🥰",
-    "Каждое твоё сообщение делает мой день 🌞",
-    "Помнишь, как мы смеялись до слёз? 😭",
-    "Ты — моя вдохновляющая муза 🎨",
-    "Хочу готовить тебе завтрак каждый день 🍳",
-    "Ты всегда согреваешь меня своим теплом 🔥",
-    "Мечтаю о наших путешествиях ✈️",
-    "Спасибо, что делаешь мою жизнь яркой ❤️"
+    { text: "Привет, моя любимая! 💖", media: { type: "image", src: "1.png" } },
+    { text: "Помнишь наш первый совместный вечер? 😊", media: { type: "video", src: "videos/1.mp4" } },
+    { text: "Я люблю твой смех 😍", media: { type: "image", src: "images/2.jpg" } },
+    { text: "Каждое утро с тобой — как праздник 🌸" }, // Без медиа
+    { text: "Наши прогулки под дождем 🌧️", media: { type: "image", src: "images/3.jpg" } }
+    // Добавь остальные экраны
 ];
 
 // ==== ПЕРЕМЕННЫЕ ====
@@ -48,24 +39,35 @@ let currentScreen = 0;
 let score = 0;
 const app = document.getElementById('app');
 const scoreDisplay = document.getElementById('scoreDisplay');
-let gameScreens = []; // Массив игровых экранов
+let gameScreens = [];
 
 // ==== СОЗДАНИЕ ЭКРАНА ====
-function createScreen(text, index){
+function createScreen(screen){
     const div = document.createElement('div');
     div.className = 'screen';
 
     const p = document.createElement('p');
     p.style.fontSize = '1.5em';
     p.style.margin = '10px';
-    p.innerText = text;
+    p.innerText = screen.text;
     div.appendChild(p);
 
-    // Картинка с относительным путем
-    const img = document.createElement('img');
-    img.src = "1.png"; // images/1.jpg, images/2.jpg ...
-    img.alt = "Фото";
-    div.appendChild(img);
+    // Добавляем медиа, если есть
+    if(screen.media){
+        if(screen.media.type === "image"){
+            const img = document.createElement('img');
+            img.src = screen.media.src;
+            img.alt = "Фото";
+            div.appendChild(img);
+        } else if(screen.media.type === "video"){
+            const video = document.createElement('video');
+            video.src = screen.media.src;
+            video.controls = true;
+            video.autoplay = false;
+            video.loop = true;
+            div.appendChild(video);
+        }
+    }
 
     const btn = document.createElement('div');
     btn.className = 'heart-btn';
@@ -103,7 +105,7 @@ function showIntroScreen(){
     startBtn.className = 'start-btn';
     startBtn.innerText = 'Начать';
     startBtn.onclick = () => {
-        scoreDisplay.style.display = 'block'; // Показываем счетчик только при игре
+        scoreDisplay.style.display = 'block';
         renderGameScreens();
     };
     introDiv.appendChild(startBtn);
@@ -113,13 +115,11 @@ function showIntroScreen(){
 
 // ==== РЕНДЕР ИГРОВЫХ ЭКРАНОВ ====
 function renderGameScreens(){
-    // Убираем все текущие экраны (вводный)
     document.querySelectorAll('.screen').forEach(el => el.style.display='none');
 
-    // Создаем игровые экраны только один раз
     if(gameScreens.length === 0){
-        screensData.forEach((text, index) => {
-            const s = createScreen(text, index);
+        screensData.forEach(screen => {
+            const s = createScreen(screen);
             app.appendChild(s);
             gameScreens.push(s);
         });
@@ -142,9 +142,7 @@ function nextScreen(){
 
 // ==== Финальный экран с опциями ====
 function showFinalScreen(){
-    // Убираем все предыдущие экраны
     document.querySelectorAll('.screen').forEach(el => el.remove());
-
     scoreDisplay.style.display = 'block';
     scoreDisplay.innerText = `Очки: ${score}`;
 
@@ -183,9 +181,7 @@ function showFinalScreen(){
 
 // ==== Финальный экран с таймером ====
 function chooseOption(option){
-    // Убираем все предыдущие экраны
     document.querySelectorAll('.screen').forEach(el => el.remove());
-
     scoreDisplay.style.display='block';
 
     const finalDiv = document.createElement('div');
@@ -227,7 +223,7 @@ function chooseOption(option){
 }
 
 // ==== Старт игры ====
-scoreDisplay.style.display='none'; // Скрываем счетчик на вводном экране
+scoreDisplay.style.display='none';
 showIntroScreen();
 </script>
 </body>
