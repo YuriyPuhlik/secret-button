@@ -10,7 +10,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: Times, sans-serif;
+        font-family: Arial, sans-serif;
     }
 
     body {
@@ -84,7 +84,7 @@
         border: none;
         border-radius: 12px;
         cursor: pointer;
-        background: #ff80bf;
+        background: #ff4d94;
         color: white;
     }
 
@@ -257,12 +257,12 @@ function showFinalScreen() {
 
     final.innerHTML = `
         <p style="font-size:1.5em; margin:20px">
-            Твой выигрыш составил 🎁
+            Ваш выигрыш составил 🎁
         </p>
         <p>
-            ✨ 3 часа массажа<br>
-            💋 20 поцелуев<br>
-            🎬 Вечер кино и объятий
+            <p style="margin-bottom:6px">✨ 3 часа массажа</p>
+            <p style="margin-bottom:6px">💋 20 поцелуев</p>
+            <p style="margin-bottom:6px">🎬 Вечер кино и объятий</p>
         </p>
         <div id="final-options">
             <button onclick="chooseOption()">Забрать выигрыш</button>
