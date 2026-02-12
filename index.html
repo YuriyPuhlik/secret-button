@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Любовная игра 💖</title>
+<title>День Святого Валентина 💖</title>
 
 <style>
     * {
@@ -45,8 +45,8 @@
     }
 
     .heart-btn, .start-btn {
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
         background: #ff4d94;
         border-radius: 50%;
         display: flex;
@@ -59,6 +59,10 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         transition: transform 0.2s;
         user-select: none;
+    }
+
+    .start-btn {
+        padding: 30px;
     }
 
     .heart-btn:active,
@@ -104,7 +108,6 @@
 </div>
 
 <script>
-// ================== ДАННЫЕ ЭКРАНОВ ==================
 const screensData = [
     { text: "Привет, любимая! 💖🌸✨", media: { type: "image", src: "1.jpg" } },
     { text: "Помнишь наш первый совместный вечер? 😊💫", media: { type: "image", src: "first-evening.png" } },
@@ -125,10 +128,9 @@ const screensData = [
     { text: "Крепко 🤗💞", media: { type: "image", src: "krepko.jpg" } },
     { text: "Целую тебя 😘", media: { type: "image", src: "kiss.png" } },
     { text: "И поздравляю с нашим днем 🎉💖", media: { type: "image", src: "nash-den.jpg" } },
-    { text: "Моя Любимая 🌹💫", media: { type: "image", src: "love.jpg" } },
+    { text: "Моя Любимая 🌹💫", media: { type: "image", src: "love.jpg" } }
 ];
 
-// ================== ПЕРЕМЕННЫЕ ==================
 let currentScreen = 0;
 let score = 0;
 
@@ -136,29 +138,12 @@ const app = document.getElementById('app');
 const scoreDisplay = document.getElementById('scoreDisplay');
 let gameScreens = [];
 
-// ================== ВСПОМОГАТЕЛЬНОЕ ==================
-function stopVideosInScreen(screenElement) {
-    const videos = screenElement.querySelectorAll('video');
-    videos.forEach(video => {
-        video.pause();
-        video.currentTime = 0;
-    });
-}
-
-function playVideoInScreen(screenElement) {
-    const video = screenElement.querySelector('video');
-    if (video) {
-        video.play().catch(() => {});
-    }
-}
-
-// ================== СОЗДАНИЕ ЭКРАНА ==================
 function createScreen(screen) {
     const div = document.createElement('div');
     div.className = 'screen';
 
     const p = document.createElement('p');
-    p.style.fontSize = '1.5em';
+    p.style.fontSize = '1.3em';
     p.style.margin = '10px';
     p.innerText = screen.text;
     div.appendChild(p);
@@ -169,7 +154,6 @@ function createScreen(screen) {
             img.src = screen.media.src;
             div.appendChild(img);
         }
-
         if (screen.media.type === "video") {
             const video = document.createElement('video');
             video.src = screen.media.src;
@@ -193,15 +177,14 @@ function createScreen(screen) {
     return div;
 }
 
-// ================== ВВОДНЫЙ ЭКРАН ==================
 function showIntroScreen() {
     const intro = document.createElement('div');
     intro.className = 'screen';
     intro.style.display = 'flex';
 
     intro.innerHTML = `
-        <p style="font-size:1.5em; margin:20px">
-            Добро пожаловать в нашу милую игру 💖<br>
+        <p style="font-size:1.5em; margin:20px; line-height:1.8">
+            Добро пожаловать в нашу милую игру 💖<br><br>
             Нажимай на ❤️ и зарабатывай очки
         </p>
     `;
@@ -218,10 +201,8 @@ function showIntroScreen() {
     app.appendChild(intro);
 }
 
-// ================== РЕНДЕР ==================
 function renderGameScreens() {
     document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-
     if (gameScreens.length === 0) {
         screensData.forEach(data => {
             const screen = createScreen(data);
@@ -229,27 +210,20 @@ function renderGameScreens() {
             gameScreens.push(screen);
         });
     }
-
     currentScreen = 0;
     gameScreens[0].style.display = 'flex';
-    playVideoInScreen(gameScreens[0]);
 }
 
-// ================== ПЕРЕХОД ==================
 function nextScreen() {
-    stopVideosInScreen(gameScreens[currentScreen]);
     gameScreens[currentScreen].style.display = 'none';
     currentScreen++;
-
     if (currentScreen < gameScreens.length) {
         gameScreens[currentScreen].style.display = 'flex';
-        playVideoInScreen(gameScreens[currentScreen]);
     } else {
         showFinalScreen();
     }
 }
 
-// ================== ФИНАЛ ==================
 function showFinalScreen() {
     document.querySelectorAll('.screen').forEach(s => s.remove());
 
@@ -259,43 +233,40 @@ function showFinalScreen() {
 
     final.innerHTML = `
         <p style="font-size:1.5em; margin:20px">
-            Ты заработала ${score} очков 🎉
+            Твой выигрыш составил 🎁
         </p>
+        <p>✨ 3 часа массажа<br>💋 20 поцелуев<br>🎬 Вечер кино и объятий</p>
         <div id="final-options">
-            <button onclick="chooseOption('3 часа массажа')">3 часа массажа</button>
-            <button onclick="chooseOption('20 поцелуев')">20 поцелуев</button>
-            <button onclick="chooseOption('Сюрприз')">Сюрприз</button>
+            <button onclick="chooseOption()">Забрать выигрыш</button>
         </div>
     `;
 
     app.appendChild(final);
 }
 
-function chooseOption(text) {
+function chooseOption() {
     document.querySelectorAll('.screen').forEach(s => s.remove());
 
     const final = document.createElement('div');
     final.className = 'screen';
     final.style.display = 'flex';
 
-    const countdown = document.createElement('div');
-    countdown.id = 'countdown';
-
     final.innerHTML = `
         <p style="font-size:1.5em; margin:20px">
-            Ты выбрала: ${text} ❤️
+            Ваш приз будет доставлен через:
         </p>
+        <div id="countdown"></div>
     `;
 
-    final.appendChild(countdown);
     app.appendChild(final);
 
+    const countdown = document.getElementById('countdown');
     const targetDate = new Date("2026-03-07T00:00:00");
 
     setInterval(() => {
         const diff = targetDate - new Date();
         if (diff <= 0) {
-            countdown.innerText = "Желание осуществилось 🎉";
+            countdown.innerText = "Уже рядом 🎉❤️";
             return;
         }
         const d = Math.floor(diff / 86400000);
@@ -306,7 +277,6 @@ function chooseOption(text) {
     }, 1000);
 }
 
-// ================== СТАРТ ==================
 showIntroScreen();
 </script>
 </body>
